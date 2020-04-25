@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //  return 1;}
        Random random = new Random();
        if(number<5){
-         resetscreen();
+         resetScreen();
           Toast.makeText(getApplicationContext(),"Enter any number greater than 4", Toast.LENGTH_LONG).show();}
        else{
         do {
