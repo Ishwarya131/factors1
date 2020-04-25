@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int generateWrongAnswer(int number){
       //  return 1;}
        Random random = new Random();
+       if(number<5){
+         resetscreen();
+          Toast.makeText(getApplicationContext(),"Enter any number greater than 4", Toast.LENGTH_LONG).show();}
+       else{
         do {
             int randomNumber = random.nextInt(number);
             if (randomNumber != 0
@@ -72,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     && !(optionValues.contains(randomNumber))) {
                 return randomNumber;
             }
-       }while(true);
+       }while(true);}
+        return 0;
     }
 
     private void setQuestionAndAnswer() {
