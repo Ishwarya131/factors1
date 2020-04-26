@@ -1,4 +1,4 @@
-package com.example.myapplicationdelta1;
+package com.example.learnfactorise;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +10,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.myapplicationdelta1.R;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         option2 = findViewById(R.id.option2);
         option3 = findViewById(R.id.option3);
         test = findViewById(R.id.btnTest);
-        Toast.makeText(getApplicationContext(),"Enter any number greater than 4", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Enter any number other than 0", Toast.LENGTH_LONG).show();
         options.setVisibility(View.INVISIBLE);
         question.setVisibility(View.INVISIBLE);
 
@@ -51,43 +49,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int generateCorrectAnswer(int number){
-       // return 1;}
-
         Random random = new Random();
-       do {
-           int randomNumber = random.nextInt(number);
+        do {
+            int randomNumber = random.nextInt(number);
             if (randomNumber != 0 && (number % randomNumber) == 0) {
                 return randomNumber;
-           }
-      }while(true);
+            }
+        }while(true);
     }
 
     private int generateWrongAnswer(int number){
-      //  return 1;}
-       Random random = new Random();
-       if(number<5){
-         resetScreen();
-          Toast.makeText(getApplicationContext(),"Enter any number greater than 4", Toast.LENGTH_LONG).show();}
-       else{
+        Random random = new Random();
         do {
-            int randomNumber = random.nextInt(number);
+            int randomNumber = random.nextInt(number+10) ;
             if (randomNumber != 0
-                   && (number % randomNumber) != 0
+                    && (number % randomNumber) != 0
                     && !(optionValues.contains(randomNumber))) {
                 return randomNumber;
             }
-       }while(true);}
-        return 0;
+        }while(true);
     }
 
     private void setQuestionAndAnswer() {
-        question.setText("Which one is the factor of " + number.getText().toString() + "?");
-        answer = generateCorrectAnswer(Integer.parseInt(number.getText().toString()));
+        int num= Integer.parseInt(number.getText().toString());
 
+        if(num == 0) {
+            Toast.makeText(this, "Number should not be zero. Please try again", Toast.LENGTH_LONG).show();
+            return;
+        } else if (num == 1) {
+            answer = 1;
+        } else {
+            answer = generateCorrectAnswer(num);
+        }
+
+        question.setText("Which one is the factor of " + number.getText().toString() + "?");
         optionValues = new HashSet<>();
         optionValues.add(answer);
-        optionValues.add(generateWrongAnswer(Integer.parseInt(number.getText().toString())));
-        optionValues.add(generateWrongAnswer(Integer.parseInt(number.getText().toString())));
+        optionValues.add(generateWrongAnswer(num));
+        optionValues.add(generateWrongAnswer(num));
 
         int i = 1;
         for (int optionValue : optionValues) {
@@ -101,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             i++;
         }
+        options.setVisibility(View.VISIBLE);
+        question.setVisibility(View.VISIBLE);
     }
 
     private void validateAnswer(RadioGroup group){
@@ -125,8 +126,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        options.setVisibility(View.VISIBLE);
-        question.setVisibility(View.VISIBLE);
 
         setQuestionAndAnswer();
     }
